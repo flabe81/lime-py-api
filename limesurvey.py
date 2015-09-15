@@ -1,9 +1,14 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import urllib2
+
 import json
 import sys
+
+try:
+    import urllib.request as urllib2
+except ImportError:
+    import urllib2
 from csv import DictReader
 from time import sleep
 
@@ -124,7 +129,7 @@ class Api:
                                 "sImportDataType": "%s",
                                 "sNewSurveyName": "%s",
                                 "DestSurveyID": %d } }""" \
-                                % (self.session_key, datos, tipo, titulo, sid)
+               % (self.session_key, datos, tipo, titulo, sid)
         return self._obtenerJson(data)['result']
 
     def release_session_key(self):
@@ -138,10 +143,26 @@ class Api:
                         "method":"export_responses",
                         "params": { "sSessionKey": "%s",
                                     "iSurveyID":  %s,
-                                    "sDocumentType": "csv",
-                                    "sHeadingType": "full",
+                                    "sDocumentType": "json",
+                                    "sLanguageCode": "ca",
+                                    "sCompletionStatus":"all",
+                                    "sHeadingType": "code",
                                     "sResponseType": "long"
                         } } """ % (self.session_key, sid)
+        return self._obtenerJson(data)['result']
+
+    def export_responses_by_token(self, sid, token):
+        data = """ {    "id" : 1,
+                        "method":"export_responses_by_token",
+                        "params": { "sSessionKey": "%s",
+                                    "iSurveyID":  %s,
+                                    "sDocumentType": "json",
+                                    "sToken":  "%s",
+                                    "$sLanguageCode": "ca",
+                                    "sCompletationStatus": "all",
+                                    "sHeadingType": "code",
+                                    "sResponseType": "long"
+                        } } """ % (self.session_key, sid, token)
         return self._obtenerJson(data)['result']
 
     def _add_response(self, sid, datos):

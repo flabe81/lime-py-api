@@ -1,8 +1,7 @@
 __author__ = 'beeGroup'
 
-LIME_USER = 'user_example'
-LIME_KEY = 'pass_exampe'
-LIME_API_URL ='http://limesurvey.example.com/index.php/admin/remotecontrol'
-
-
-
+LIME_USER = 'user_lime'
+LIME_KEY = 'password_lime'
+LIME_API_URL = 'http://example/index.php/admin/remotecontrol'
+LIME_TOKEN_BASE = 'token'
+LIME_SID = 'survey_ID'

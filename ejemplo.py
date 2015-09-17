@@ -2,32 +2,31 @@
 
 from limesurvey import Api
 import base64  # para encodear la subida de surveys
+import config
 
-# demo de limesurvey
-usuario = 'admin'
-clave = 'test'
-url = 'http://demo.limesurvey.org/index.php?r=admin/remotecontrol'
+# Authentication
+usuario = config.LIME_USER
+clave = config.LIME_KEY
+url = config.LIME_API_URL
 
+# Build the API
 lime = Api(url, usuario, clave)
 
-for e in lime.list_surveys():
+# SET TOKEN BASE and Survey
+sid = config.LIME_SID
+token = config.LIME_TOKEN_BASE
 
-    propiedades = lime.get_survey_properties(e[0], settings='["active"]')
+# GET data - token
+export_res_token = lime.export_responses_by_token(sid, token)
 
-    if propiedades['active'] == 'Y':
-        print "La encuesta %s esta activa" % e[0]
-        summary = lime.get_summary(e[0])
+# Insert in db
+export_res = export_res_token
 
-        if summary['full_responses'] != '0':
-            print summary
-            datos = lime.export_responses(e[0])
+## Add Response
+response_to_add = {}
 
-            if datos is not None:
-                decoded_string = base64.b64decode(datos)
-                print decoded_string
-
-                break
-
-    else:
-        print "La encuesta %s no esta activa" % e[0]
-        # print lime.delete_survey(e[0])
+# export_res export_res = lime.export_responses_by_token('999729', 'qdgb2bkiqgqwtvu')
+if export_res is not None:
+    decoded_string = base64.b64decode(export_res)
+    with open("Output.json", "w") as text_file:
+        text_file.write(decoded_string)

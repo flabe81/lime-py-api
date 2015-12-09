@@ -171,6 +171,17 @@ class Api:
                     } """ % (self.session_key, sid, response_data)
         return self._get_json(data)['result']
 
+
+    '''Update Response '''
+    def update_response(self, sid, response_data):
+        data = """ {          "id": 1,
+                              "method":"update_response",
+                              "params": { "sSessionKey": "%s",
+                                          "iSurveyID": %s,
+                                          "aResponseData": %s }
+                    } """ % (self.session_key, sid, response_data)
+        return self._get_json(data)['result']
+
     def impor_from_file(self, sid, file):
         """Esto no funciona!"""
 

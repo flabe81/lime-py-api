@@ -18,10 +18,10 @@ sid = config.LIME_SID
 token = config.LIME_TOKEN_BASE
 
 data_resp = {
-    'token': token,
+    'token': 'test_token',
     '999729X44X2131111': "fabio_test_update_response"
 }
 
-resu = lime.update_response(sid, json.dumps(data_resp))
+resu = lime._add_response(sid, json.dumps(data_resp))
 
 print ("END EXAMPLE UPDATE_RESPONSE")

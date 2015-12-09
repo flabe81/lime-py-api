@@ -97,14 +97,11 @@ class Api:
     def list_surveys(self):
         json_list_surveys = self._list_surveys()
 
-        encuestas = []
+        surveys = []
         for e in json_list_surveys:
-            encuesta = e['sid'], e['surveyls_title']
-            # Me quedo con el SID y el Titulo
-
-            encuestas.append(encuesta)
-
-        return encuestas
+            survey = e['sid'], e['surveyls_title']
+            surveys.append(survey)
+        return surveys
 
     def _list_surveys(self):
         """Devuelve el JSON ENTERO"""
@@ -174,17 +171,17 @@ class Api:
                     } """ % (self.session_key, sid, datos)
         return self._get_json(data)['result']
 
-    def importar_desde_archivo(self, sid, archivo):
+    def impor_from_file(self, sid, file):
         """Esto no funciona!"""
 
-        with open(archivo) as csv:
+        with open(file) as csv:
             datos = []
-            for linea in csv.readlines():
-                datos.append(linea.rstrip().split('\t'))
+            for line in csv.readlines():
+                datos.append(line.rstrip().split('\t'))
 
-        columnas = datos[1]
+        columns = datos[1]
         for d in datos[2:]:
-            r = dict(zip(columnas, d))
+            r = dict(zip(columns, d))
             r['id'] = ""
             self._add_response(sid, json.dumps(r))
             sleep(1)
@@ -199,12 +196,12 @@ class Api:
     def list_groups(self, sid):
         json_list_groups = self._list_groups(sid)
 
-        grupos = []
+        groups = []
         for g in json_list_groups:
-            grupo = g['id']['gid'], g['group_name']
-            grupos.append(grupo)
+            group = g['id']['gid'], g['group_name']
+            groups.append(group)
 
-        return grupos
+        return groups
 
     def _list_questions(self, sid, gid):
         data = """ {          "method":"list_questions",
@@ -217,9 +214,9 @@ class Api:
     def list_questions(self, sid, gid):
         json_list_questions = self._list_questions(sid, gid)
 
-        preguntas = []
+        questions = []
         for q in json_list_questions:
-            pregunta = q['id']['qid'], q['question']
-            preguntas.append(pregunta)
+            question = q['id']['qid'], q['question']
+            questions.append(question)
 
-        return preguntas
+        return questions

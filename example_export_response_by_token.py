@@ -17,7 +17,7 @@ sid = config.LIME_SID
 token = config.LIME_TOKEN_BASE
 
 # GET data - token
-export_res = lime.export_responses_by_token(sid, token)
+export_res = lime.export_responses_by_token(sid, token,"ca")
 
 # Save a in a Json file
 if export_res is not None:

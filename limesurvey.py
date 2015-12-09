@@ -148,27 +148,27 @@ class Api:
                         } } """ % (self.session_key, sid)
         return self._get_json(data)['result']
 
-    def export_responses_by_token(self, sid, token):
+    def export_responses_by_token(self, sid, token, language_code):
         data = """ {    "id" : 1,
                         "method":"export_responses_by_token",
                         "params": { "sSessionKey": "%s",
                                     "iSurveyID":  %s,
                                     "sDocumentType": "json",
                                     "sToken":  "%s",
-                                    "$sLanguageCode": "ca",
+                                    "$sLanguageCode": "%s",
                                     "sCompletationStatus": "all",
                                     "sHeadingType": "code",
                                     "sResponseType": "long"
-                        } } """ % (self.session_key, sid, token)
+                        } } """ % (self.session_key, sid, token, language_code)
         return self._get_json(data)['result']
 
-    def _add_response(self, sid, datos):
+    def _add_response(self, sid, response_data):
         data = """ {          "id": 1,
                               "method":"add_response",
                               "params": { "sSessionKey": "%s",
                                           "iSurveyID": %s,
                                           "aResponseData": %s }
-                    } """ % (self.session_key, sid, datos)
+                    } """ % (self.session_key, sid, response_data)
         return self._get_json(data)['result']
 
     def impor_from_file(self, sid, file):
